@@ -1,0 +1,17 @@
+body{
+    box-sizing: border-box;
+}
+
+#root{
+    height: 100vh;
+    background-color: rgba(185, 182, 182, 0.376);
+}
+.container {
+    width: 40%;
+    padding: 30px;
+    border-radius: 10px;
+}
+input {
+    outline: none;
+    border: none;
+}
