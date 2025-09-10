@@ -29,7 +29,16 @@ function Home() {
 
   }
 
-
+  //Mark completed todo list with specific strike-through style
+  const todoDone = (id)=>{
+    const completed = todos.map(todo=>{
+      if(id===todo.id){
+        return({...todo, status:!todo.status})
+      }
+      return todo
+    })
+    setTodos(completed)
+  }
 
 
   useEffect(() => {
