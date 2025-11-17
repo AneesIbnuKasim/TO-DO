@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 function Home() {
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
+  const [editId, setEditId] = useState(0)
   const inputRef = useRef("null");
 
   //handle todo submission
@@ -17,6 +18,17 @@ function Home() {
       setTodos([...todos, {list:todo,id:Date.now(),status:false}]);
       setInput("");
     }
+    if (editId) {
+      const updatedTodos = todos.map(item=>{
+        if(editId === item.id) {
+          return {...item, list:input}
+        }
+        return item
+      }) 
+      setTodos(updatedTodos)
+      setEditId(0)
+      setInput('')
+    }
   };
   //delete function for deleting specific todo
   const todoDelete = (id) => {
@@ -26,7 +38,9 @@ function Home() {
 
   //Edit a selected todo using id to identify and update with new data
   const todoEdit = (id)=>{
-
+      const editTodo = todos.find(todo=>id===todo.id)
+      setInput(editTodo.list)
+      setEditId(id)
   }
 
   //Mark completed todo list with specific strike-through style
@@ -62,8 +76,8 @@ function Home() {
                 className="w-100 rounded-3 p-2 fs-4"
                 placeholder="type here..."
               />
-              <button className="btn btn-primary " onClick={handleSubmit}>
-                Submit
+              <button className="btn px-4 btn-primary btn-lg " onClick={handleSubmit}>
+                {editId?'Edit':'Add'}
               </button>
             </div>
           </form>
@@ -78,7 +92,7 @@ function Home() {
                   <span className="fs-5">
                     <IoMdDoneAll
                     onClick={()=>todoDone(todo.id)}
-                      className="ms-auto cursor-pointer"
+                      className={`ms-auto cursor-pointer ${todo.status?'text-success':''}`}
                       title="Completed"
                     />
                     <FaEdit
